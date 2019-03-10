@@ -1,72 +1,35 @@
 import React, { Component } from 'react';
 import './App.css';
-import './First/First'
-import Books from './Books/Books'
-// import First from './First/First';
-// import Counter from './Counter/Counter'
-// import Example from './Example'
+import axios from 'axios'
 
 class App extends Component {
-
   state = {
-    books: [
-      {
-        id:1,
-        name : 'JavaScripts',
-        price: 10
-      },
-      {
-        id:2,
-        name: 'Python',
-        price: 20
-      },
-      {
-        id:3,
-        name : 'PHP',
-        price: 10
-      },
-      {
-        id:4,
-        name: 'Java',
-        price: 20
-      }
-    ]
+    posts : []
   }
 
-  deleteHandler = (id) =>{
-    let newBook = this.state.books.filter(book => book.id !== id)
-    this.setState({
-      books: newBook
+  componentDidMount(){
+    axios.get('https://jsonplaceholder.typicode.com/posts')
+    .then(response=>{
+      this.setState({
+        posts:response.data
+      })
     })
+    .catch(error=>console.log(error))
+
   }
-
-  changeHandler = (name, id) =>{
-    let newBook = this.state.books.map(book => {
-      if(id === book.id){
-        return{
-          ...book,
-          name
-        }
-      }
-
-      return book
-    })
-
-    this.setState({
-      books:newBook
-    })
-  }
-
   render() {
-    
-    return (
-      <div className='App'>
-        <Books 
-          changeHandler={this.changeHandler.bind(this)}
-          deleteHandler={this.deleteHandler.bind(this)} 
-          books={this.state.books} />
-      </div>
-    );
+    let {posts} = this.state
+    if(posts.length === 0){
+      return <h1 style={{textAlign:'center'}}>Loading....</h1>
+    }else{
+      return(
+        <div className='container'>
+          <ul className="list-group">
+            {posts.map(post => <li key={post.id} className='list-group-item'>{post.title}</li>)}
+          </ul>
+        </div>
+      )
+    }
   }
 }
 
