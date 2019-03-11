@@ -16,7 +16,6 @@ class PostForm extends React.Component{
 
     constructor(){
         super()
-
         this.myForm = React.createRef()
     }
 
@@ -44,20 +43,13 @@ class PostForm extends React.Component{
 
     submitHandler = event =>{
         event.preventDefault()
-        console.log(this.state)
-
         this.myForm.current.reset()
         this.setState({
             ...initialState 
         })
-    };
 
-    clickHandler = event => {
-        this.setState({
-            show: document.getElementById("name").value,
-            show2: document.getElementById("email").value
-        })
-    }
+        console.log(this.state)
+    };
 
     render(){
         return(
@@ -136,7 +128,7 @@ class PostForm extends React.Component{
                         </div>
 
                     </div>
-                    <button onClick={this.clickHandler} type="submit" className='btn btn-primary'>submit</button>
+                    <button type="submit" className='btn btn-primary'>submit</button>
                 </form>
                 <p>Hi i'am: {this.state.show} </p>
             </div>
